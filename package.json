@@ -7,6 +7,10 @@
   "scripts": {
     "test": "tape test.js"
   },
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/grainstackdev/graphql-directive-id"
+  },
   "dependencies": {
     "@graphql-tools/utils": "^9.2.1"
   },
