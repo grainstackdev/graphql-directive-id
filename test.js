@@ -1,8 +1,9 @@
 // backend
 import {test} from "tape";
 import {createIdDirective} from './index.js'
-import { makeExecutableSchema  } from "@graphql-tools/schema"
+import { makeExecutableSchema } from "@graphql-tools/schema"
 import { printSchemaWithDirectives } from "@graphql-tools/utils"
+import {graphqlSync} from 'graphql'
 
 const {idDirectiveTransformer, idDirectiveTypeDefs} = createIdDirective('id')
 
@@ -16,7 +17,7 @@ test('generation', (t) => {
         locations: [Location]
       }
  
-      type Person @id(from: ["personID"]) {
+      type Person @id(from: ["personID", "name"]) {
         personID: Int
         name: String
       }
@@ -59,7 +60,7 @@ type Query {
   locations: [Location]
 }
 
-type Person @id(from: ["personID"]) {
+type Person @id(from: ["personID", "name"]) {
   personID: Int
   name: String
   """Unique ID"""
@@ -72,6 +73,23 @@ type Location @id(name: "uid", from: ["locationID"]) {
   """Unique ID"""
   uid: ID
 }`)
+
+  const res = graphqlSync({
+    schema,
+    source: `
+      {
+        people {
+          id
+        }
+        locations {
+          uid
+        }
+      }
+    `
+  }).data
+
+  t.isEqual(res.people[0].id, 'Person:1Ben')
+  t.deepEquals(res.locations[0].uid, 'Location:1')
 
   t.end()
 })

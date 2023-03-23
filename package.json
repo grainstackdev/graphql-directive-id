@@ -3,13 +3,19 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
-  "type": "module",
-  "scripts": {
-    "test": "tape test.js"
-  },
   "repository": {
     "type": "github",
     "url": "https://github.com/grainstackdev/graphql-directive-id"
+  },
+  "description": "Generate an id field from other columns.",
+  "keywords": [
+    "graphql",
+    "directive",
+    "id"
+  ],
+  "type": "module",
+  "scripts": {
+    "test": "tape test.js"
   },
   "dependencies": {
     "@graphql-tools/utils": "^9.2.1"
